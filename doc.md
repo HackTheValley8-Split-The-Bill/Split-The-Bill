@@ -68,7 +68,7 @@ summary: This page is used to display the **Total Amount** and **Friends List wi
 ```json
 {
     "method": "POST",
-    "url": "/api/user/balance_list/:id".
+    "url": "/api/user/balance_list/:id",
     "response": {
         "state": 200
         "body": [
