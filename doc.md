@@ -2,7 +2,7 @@
 
 ## Login Page
 
-summary: This page is used to login to the system
+- [ ] summary: This page is used to login to the system
 > Notes: This is used to login to the system
 
 ```json
@@ -25,7 +25,7 @@ summary: This page is used to login to the system
 
 ## Sigup Page
 
-summary: This page is used to signup to the system
+- [ ] summary: This page is used to signup to the system
 > Note: This is used to signup to the system
 
 ```json
@@ -50,7 +50,7 @@ summary: This page is used to signup to the system
 
 ## Home Page (Dashboard)
 
-summary: This page is used to display the **Total Amount** and **Friends List with Balance**
+- [ ] summary: This page is used to display the **Total Amount** and **Friends List with Balance**
 
 ```json
 {
@@ -83,7 +83,7 @@ summary: This page is used to display the **Total Amount** and **Friends List wi
 
 ## Friend Page
 
-summary: This page is used to display the **Total Amount of a Friend** and **Transaction List with Balance** of a friend
+- [ ] summary: This page is used to display the **Total Amount of a Friend** and **Transaction List with Balance** of a friend
 > Notes: This is used to display the **Total Amount of a Friend**
 
 ```json
@@ -119,7 +119,7 @@ summary: This page is used to display the **Total Amount of a Friend** and **Tra
 
 ## Add Transaction Page
 
-summary: This page is used to display the **Transaction List** of a friend
+- [ ] summary: This page is used to display the **Transaction List** of a friend
 > Notes: This is used to display the **Friend List** of a user
 
 ```json
@@ -221,7 +221,7 @@ summary: This page is used to display the **Transaction List** of a friend
 
 ## Timeline Page
 
-summary: This page is used to display the **Transaction List** of a friend
+- [ ] summary: This page is used to display the **Transaction List** of a friend
 
 ```json
 {
@@ -243,4 +243,4 @@ summary: This page is used to display the **Transaction List** of a friend
 
 ## Pay Page
 
-summary: This page is similar to **Add Transaction Page** but it is used to pay a friend
+- [ ] summary: This page is similar to **Add Transaction Page** but it is used to pay a friend
