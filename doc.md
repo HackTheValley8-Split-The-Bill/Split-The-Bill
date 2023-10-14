@@ -2,7 +2,8 @@
 
 ## Login Page
 
-- [ ] summary: This page is used to login to the system
+- [x] summary: This page is used to login to the system
+
 > Notes: This is used to login to the system
 
 ```json
@@ -13,7 +14,8 @@
         "user_name" : "str",
         "password" : "str"
     },
-    "response": {
+    "response":
+    {
         "state": 200,
         "body": {
             "user_id" : "str",
@@ -26,6 +28,7 @@
 ## Sigup Page
 
 - [ ] summary: This page is used to signup to the system
+
 > Note: This is used to signup to the system
 
 ```json
@@ -84,6 +87,7 @@
 ## Friend Page
 
 - [ ] summary: This page is used to display the **Total Amount of a Friend** and **Transaction List with Balance** of a friend
+
 > Notes: This is used to display the **Total Amount of a Friend**
 
 ```json
@@ -120,6 +124,7 @@
 ## Add Transaction Page
 
 - [ ] summary: This page is used to display the **Transaction List** of a friend
+
 > Notes: This is used to display the **Friend List** of a user
 
 ```json
