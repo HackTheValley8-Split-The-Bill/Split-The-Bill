@@ -1,5 +1,5 @@
 import { Suspense, useState, useTransition } from 'react';
-import Toolbar from './Toolbar';
+import NavigationBar from './NavigationBar';
 
 function BigSpinner() {
   return <h2>🌀 Loading...</h2>;
@@ -16,7 +16,7 @@ function Router() {
   }
 
   return (
-    <Toolbar page={page} isPending={isPending} navigate={navigate}></Toolbar>
+    <NavigationBar page={page} isPending={isPending} navigate={navigate}></NavigationBar>
   );
 }
 
