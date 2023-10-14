@@ -1,5 +1,5 @@
 import express from "express";
-import { User } from "../modules/user.js";
+import { createUser } from "../modules/user.js";
 
 export const userRouter = express.Router();
 
@@ -26,15 +26,23 @@ userRouter.post("/login", async function (req, res) {
 // Register a new user
 userRouter.post("/register", async function (req, res) {
   const { name, password } = req.body;
-  const user = await User.findOne({ "name": name });
-  if (user) {
-    res.status(401).json({ "error": "User already exists" });
+  if (!name || !password) {
+    return res.status(422).json({ "user_id" : result._id });
   } else {
-    const newUser = new User({ "name": name, "password": password });
-    await newUser.save();
-    res.status(200).json({ "user": newUser });
+    try {
+      const result = await createUser(name, password);
+      console.info('result', result);
+      res.status(200).json({ "user_id" : result._id });
+    } catch (e) {
+      console.error('e', e);
+      if (e.code === 11000) {
+        res.status(401).json({ "error": "User already exists" });
+      } else {
+        res.status(500).json({ "error": `Unknown server error: ${e}` });
+      }
+    }
   }
-})
+});
 
 // For testing purposes only
 userRouter.get("/all", async function (req, res) {
