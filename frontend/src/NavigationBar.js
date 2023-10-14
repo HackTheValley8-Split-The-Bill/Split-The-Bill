@@ -4,6 +4,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Login from './components/Login'
 import Home from './components/Home'
 import Transactions from './components/Transactions'
+import Timeline from './components/Timeline'
 
 const pages = [{
   key: '/login',
@@ -14,8 +15,11 @@ const pages = [{
 }, {
   key: '/transactions',
   content: Transactions
+}, {
+  key: '/timeline',
+  content: Timeline
 }];
-const settings = ['/login', '/home', '/transactions'];
+const settings = ['/login', '/home', '/transactions', '/timeline'];
 
 export default function  NavigationBar({ page, isPending, navigate }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
