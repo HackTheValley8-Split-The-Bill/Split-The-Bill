@@ -4,8 +4,6 @@
 
 - [x] summary: This page is used to login to the system
 
-> Notes: This is used to login to the system
-
 ```json
 {
     "method": "POST",
@@ -18,23 +16,20 @@
     {
         "state": 200,
         "body": {
-            "user_id" : "str",
-            "success" : "bool"
+            "id" : "str"
         }
     }
 }
 ```
 
-## Sigup Page
+## Register Page
 
-- [ ] summary: This page is used to signup to the system
-
-> Note: This is used to signup to the system
+- [ ] summary: This page is used to register to the system
 
 ```json
 {
     "method": "POST",
-    "url": "/api/user/signup",
+    "url": "/api/user/register",
     "body": {
         "user_name" : "str",
         "password" : "str"
@@ -42,14 +37,13 @@
     "response": {
         "state": 200,
         "body": {
-            "user_id" : "str",
-            "success" : "bool"
+            "user_id" : "str"
         }
     }
 }
 ```
 
-> Notes: Frontend should check password strength
+> Notes: Frontend should check password strength.
 
 ## Home Page (Dashboard)
 
