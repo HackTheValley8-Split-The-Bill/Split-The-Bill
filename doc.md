@@ -24,7 +24,7 @@
 
 ## Register Page
 
-- [ ] summary: This page is used to register to the system
+- [x] summary: This page is used to register to the system
 
 ```json
 {
@@ -47,11 +47,13 @@
 
 ## Home Page (Dashboard)
 
-- [ ] summary: This page is used to display the **Total Amount** and **Friends List with Balance**
+- [x] summary: This page is used to display the **Total Balance** and **Recent Transactions**
+
+> Notes: This is used to display the **Total Balance**
 
 ```json
 {
-    "method": "POST",
+    "method": "GET",
     "url": "/api/user/balance/:id",
     "response": {
         "state": 200,
@@ -60,9 +62,11 @@
 }
 ```
 
+> Notes: This is used to get the **Recent Transactions** of a user
+
 ```json
 {
-    "method": "POST",
+    "method": "GET",
     "url": "/api/user/balance_list/:id",
     "response": {
         "state": 200,
