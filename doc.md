@@ -10,11 +10,11 @@ summary: This page is used to login to the system
     "method": "POST",
     "url": "/api/user/login",
     "body": {
-        "user_name" : "str"
+        "user_name" : "str",
         "password" : "str"
     },
     "response": {
-        "state": 200
+        "state": 200,
         "body": {
             "user_id" : "str",
             "success" : "bool"
@@ -33,11 +33,11 @@ summary: This page is used to signup to the system
     "method": "POST",
     "url": "/api/user/signup",
     "body": {
-        "user_name" : "str"
+        "user_name" : "str",
         "password" : "str"
     },
     "response": {
-        "state": 200
+        "state": 200,
         "body": {
             "user_id" : "str",
             "success" : "bool"
@@ -57,10 +57,8 @@ summary: This page is used to display the **Total Amount** and **Friends List wi
     "method": "POST",
     "url": "/api/user/balance/:id",
     "response": {
-        "state": 200
-        "body": {
-            "balance" : "int"
-        }
+        "state": 200,
+        "body": { "balance" : "int" }
     }
 }
 ```
@@ -70,7 +68,7 @@ summary: This page is used to display the **Total Amount** and **Friends List wi
     "method": "POST",
     "url": "/api/user/balance_list/:id",
     "response": {
-        "state": 200
+        "state": 200,
         "body": [
             {
                 "friend_id" : "str",
@@ -93,10 +91,8 @@ summary: This page is used to display the **Total Amount of a Friend** and **Tra
     "method": "GET",
     "url": "/api/friend/balance/:uid/:fid/",
     "response": {
-        "state": 200
-        "body": {
-            "balance" : "int",
-        }
+        "state": 200,
+        "body": { "balance" : "int" }
     }
 }
 ```
@@ -108,7 +104,7 @@ summary: This page is used to display the **Total Amount of a Friend** and **Tra
     "method": "GET",
     "url": "/api/friend/balance_list/:uid/:fid/",
     "response": {
-        "state": 200
+        "state": 200,
         "body": [
             {
                 "transaction_id" : "str",
@@ -131,11 +127,11 @@ summary: This page is used to display the **Transaction List** of a friend
     "method": "GET",
     "url": "/api/user/friends/:id/",
     "response": {
-        "state": 200
+        "state": 200,
         "body": [
             {
-                "id" : "str",
-                "name" : "str"
+                "id" : "str", // friend id
+                "name" : "str" // friend name
             }
         ]
     }
@@ -149,12 +145,12 @@ summary: This page is used to display the **Transaction List** of a friend
     "method": "GET",
     "url": "/api/user/groups/:id/",
     "response": {
-        "state": 200
+        "state": 200,
         "body": [
             {
                 "group_id" : "str",
                 "name" : "str",
-                "friends" : [
+                "friends" :[
                     {
                         "id" : "str",
                         "name" : "str"
@@ -174,15 +170,13 @@ summary: This page is used to display the **Transaction List** of a friend
     "url": "/api/user/group/:id",
     "body": {
         "name": "str",
-        "friends": [
-            {
-                "id" : "str"
-            }
+        "friends":[
+            { "id" : "str" } // friend id
         ]
     },
     "response": {
-        "state": 200
-        "body": [
+        "state": 200,
+        "body":[
             {
                 "group_id" : "str",
                 "friends" : [
@@ -206,15 +200,17 @@ summary: This page is used to display the **Transaction List** of a friend
     "body": {
         "description" : "str",
         "transactions": [
-            "group_id" : "str",
-            "friends" : [
-                "id" : "str"
-            ],
-            "amount" : "int",
+            {
+                "group_id" : "str",
+                "friends" : [
+                    {"id" : "str"}
+                ],
+                "amount" : "int",
+            }
         ]
     },
     "response": {
-        "state": 200
+        "state": 200,
         "body": {
             "id" : "str",
             "success" : "bool"
@@ -232,7 +228,7 @@ summary: This page is used to display the **Transaction List** of a friend
     "method": "GET",
     "url": "/api/user/timeline/:id/",
     "response": {
-        "state": 200
+        "state": 200,
         "body": [
             {
                 "transaction_id" : "str",
