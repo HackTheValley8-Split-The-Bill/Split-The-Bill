@@ -40,3 +40,50 @@ userRouter.get("/all", async function (req, res, next) {
   const users = await User.find({});
   res.status(200).json({ "users": users });
 })
+
+import friend_req from "friend"
+
+userRouter.get("/api/user/balance/:fid/", async function (req, res, next) {
+});
+userRouter.post("/api/user/balance/:fid/", async function (req, res, next) {
+  res.redirect("/api/user/balance_list/:id")
+  req.state=200;
+  req.body.balance=cal_trt(req);
+});
+userRouter.get("/api/user/balance_list`/:fid/", async function (req, res, next) {
+});
+function cal_trt(js){
+  sum=0;
+  for (item in js.body){
+    if(item.decription=="owe"){
+      sum=sum+item.balance;
+    }
+    if(item.decription=="pay"){
+      sum=sum-item.balance;
+    }
+  }
+  return sum;
+}
+var group_list={
+  state:200,
+  body:[
+    
+  ]
+}
+userRouter.get("/api/user/group/:id",async function(req,res,next){});
+userRouter.post("/api/user/group/:id",async function(req,res,next){
+  var freq=friend_req()["body"];  
+  friend=[];
+  for (item in req["body"]["friend"]){
+    friend.push({
+      id:item,
+      name:Object.keys(freq).find(key=>freq[key]==item)
+    })
+  }
+  group_list["body"].push({
+    group_id:Math.random(),
+    friends:friend
+  })
+});
+
+
