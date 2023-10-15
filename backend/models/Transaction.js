@@ -16,6 +16,7 @@ const transactionSchema = new Schema({
   },
   transactionInfoId: {
     type: ObjectId,
+    required: true,
     ref: 'TransactionInfo'
   }
 });

@@ -18,12 +18,7 @@ const userSchema = new Schema({
     groups: [{
         type: ObjectId,
         ref: 'Group'
-    }],
-    balance: {
-        type: Number,
-        required: true,
-        default: 0
-    }
+    }]
 });
 
 const User = await mongoose.model("User", userSchema);
