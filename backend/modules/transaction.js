@@ -42,7 +42,7 @@ export const getTransactionByUserAndFriend = async (uid, fid) => {
   return await Transaction.find({ payer: uid, payee: fid });
 }
 
-export const getUserBalence = async (uid) => {
+export const getUserBalance = async (uid) => {
   const cost = await Transaction.find({ payer: uid }).aggregate([{
     $group: {
       _id: null,
