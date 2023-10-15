@@ -1,16 +1,35 @@
 import express from "express";
-import { createUser } from "../modules/user.js";
+import {
+    checkUserPassword,
+    registerUser,
+    getAllUsers,
+    verifyUserById,
+    getFriends,
+    createGroup,
+    addFriend,
+} from "../modules/user.js";
+import {
+    getUserBalance,
+    addTransaction,
+    getTransactionByUser,
+    getTransactionByUserAndFriend,
+} from "../modules/transaction.js";
+import e from "express";
+
 
 export const userRouter = express.Router();
-
+// root = localhost:3000/user
+// localhost:3000/user/
 userRouter.get("/", async function (req, res) {
     console.info('You\'ve reached the user router!');
-    res.status(200).end('Hello World!');
+    res.status(200).json({ "user list": await getAllUsers() });
 });
 
 // Login
 userRouter.post("/login", async function (req, res) {
     const { name, password } = req.body;
+    console.info('name', name);
+    console.info('password', password);
 
     // Validate name and password
     if (!name || !password) {
@@ -20,17 +39,18 @@ userRouter.post("/login", async function (req, res) {
     // Check if user exists
     else {
         try {
-            const user = await User.findOne({ "name": name });
-            if (user) {
-                if (user.password === password) {
-                    // TODO: Calculate balance when logging in
-                    console.info('user', user);
-                    res.status(200).json({ "id": user._id.toString() });
-                } else {
-                    res.status(401).json({ "error": "Invalid password" });
-                }
-            } else {
-                res.status(401).json({ "error": "Invalid user" });
+            const uid = await checkUserPassword(name, password);
+            if (uid === 0) {
+                res.status(401).json({ "error": "User not found" });
+            } else if (uid === -1) {
+                res.status(401).json({ "error": "Wrong password" });
+            }
+            else if (uid) {
+                console.info('user id', uid);
+                res.status(200).json({ "user_id": uid });
+            }
+            else {
+                res.status(401).json({ "error": "Unknown" });
             }
         }
         catch (e) {
@@ -53,9 +73,9 @@ userRouter.post("/register", async function (req, res) {
     // Create user
     else {
         try {
-            const result = await createUser(name, password);
-            console.info('result', result);
-            res.status(200).json({ "user_id": result._id });
+            const uid = await registerUser(name, password);
+            console.info('new user id', uid);
+            res.status(200).json({ "user_id": uid });
         } catch (e) {
             console.error('e', e);
             if (e.code === 11000) {
@@ -80,12 +100,17 @@ userRouter.get("/balance/:id", async function (req, res) {
     // Get user balance
     else {
         try {
-            const balance = getUserBalance(id);
-            if (balance) {
-                console.info('user balance', balance);
-                res.status(200).json({ "balance": balance });
-            } else {
-                res.status(401).json({ "error": "Invalid user" });
+            if (await verifyUserById(id)) {
+                const balance = await getUserBalance(id);
+                if (balance) {
+                    console.info('user balance', balance);
+                    res.status(200).json({ "balance": balance });
+                } else {
+                    res.status(401).json({ "error": "Invalid user" });
+                }
+            }
+            else {
+                res.status(401).json({ "error": "User not found" });
             }
         }
         catch (e) {
@@ -149,6 +174,40 @@ userRouter.get("/friends/:id", async function (req, res) {
     }
 })
 
+// Add a friend
+userRouter.get("/friend/add/:uid/:fid", async function (req, res) {
+    const { uid, fid } = req.params;
+
+    // Validate id and friendId
+    if (!uid || !fid) {
+        res.status(401).json({ "error": "Invalid user id or friend id" });
+    }
+
+    // Add friend
+    else {
+        try {
+            const success = addFriend(uid, fid);
+            if (success === true) {
+                console.info('friend added');
+                res.status(200).json({ "success": true });
+            } else if (success === -1) {
+                res.status(401).json({ "error": "Friend already exists" });
+            }
+            else if (success === 0) {
+                res.status(401).json({ "error": "User not found" });
+            }
+            else {
+                res.status(401).json({ "error": "Unknown" });
+            }
+
+        }
+        catch (e) {
+            console.error('e', e);
+            res.status(500).json({ "error": `Unknown server error: ${e}` });
+        }
+    }
+})
+
 // Get groups list
 userRouter.get("/groups/:id", async function (req, res) {
     const { id } = req.body;
@@ -177,7 +236,7 @@ userRouter.get("/groups/:id", async function (req, res) {
 })
 
 // Create a new group
-userRouter.post("/group/:id", async function (req, res) {
+userRouter.post("/group/add/:id", async function (req, res) {
     const { id, groupName, friends } = req.body;
 
     // Validate uid, groupName, and friends
@@ -188,10 +247,10 @@ userRouter.post("/group/:id", async function (req, res) {
     // Create group
     else {
         try {
-            const group = createGroup(id, groupName, friends);
-            if (group) {
-                console.info('group', group);
-                res.status(200).json(group);
+            const groupId = createGroup(id, groupName, friends);
+            if (groupId) {
+                console.info('group Id', groupId);
+                res.status(200).json(groupId);
             } else {
                 res.status(401).json({ "error": "Invalid group" });
             }
@@ -202,7 +261,6 @@ userRouter.post("/group/:id", async function (req, res) {
         }
     }
 })
-
 
 // Create a new transaction
 userRouter.post("/transaction/add/:uid", async function (req, res) {
@@ -216,7 +274,7 @@ userRouter.post("/transaction/add/:uid", async function (req, res) {
     // Create transaction
     else {
         try {
-            const { tid, status } = createTransaction(uid, description, transactions);
+            const { tid, status } = addTransaction(uid, description, transactions);
             if (tid && status) {
                 console.info('transaction', tid, status);
                 res.status(200).json({ "tid": tid, "status": status });
@@ -243,7 +301,7 @@ userRouter.get("/timeline/:id", async function (req, res) {
     // Get timeline
     else {
         try {
-            const timeline = getTimeline(id);
+            const timeline = getTransactionByUser(id);
             if (timeline) {
                 console.info('timeline', timeline);
                 res.status(200).json(timeline);
