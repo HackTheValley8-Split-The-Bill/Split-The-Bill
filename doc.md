@@ -104,7 +104,7 @@
 ```json
 {
     "method": "GET",
-    "url": "/api/friend/balance_list/:uid/:fid/",
+    "url": "/api/friend/transactions/:uid/:fid/",
     "response": {
         "state": 200,
         "body": [

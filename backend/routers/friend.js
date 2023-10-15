@@ -8,17 +8,12 @@ friendRouter.get("/", async function (req, res, next) {
 });
 
 // Get total amount owed to user
-friendRouter.get("/balance", async function (req, res, next) {
-    const { uid, fid } = req.body;
+friendRouter.get("/balance/:uid/:fid", async function (req, res, next) {
+    const { uid, fid } = req.params;
 
     // Validate uid and fid
     if (!uid || !fid) {
-        if (!uid) {
-            res.status(401).json({ "error": "Invalid uid" });
-        }
-        if (!fid) {
-            res.status(401).json({ "error": "Invalid fid" });
-        }
+        res.status(401).json({ "error": "Invalid uid or fid" });
     }
 
     // Get balance of a friend
@@ -29,15 +24,12 @@ friendRouter.get("/balance", async function (req, res, next) {
 });
 
 // Get transactions between user and friend
-friendRouter.get("/transactions", async function (req, res, next) {
+friendRouter.get("/transactions/:uid/:fid", async function (req, res, next) {
     const { uid, fid } = req.body;
 
     // Validate uid and fid
-    if (!uid) {
-        res.status(401).json({ "error": "Invalid uid" });
-    }
-    if (!fid) {
-        res.status(401).json({ "error": "Invalid fid" });
+    if (!uid || !fid) {
+        res.status(401).json({ "error": "Invalid uid or fid" });
     }
 
     // Get transactions between user and friend

@@ -14,12 +14,7 @@ userRouter.post("/login", async function (req, res) {
 
     // Validate name and password
     if (!name || !password) {
-        if (!name) {
-            res.status(401).json({ "error": "Invalid name" });
-        }
-        if (!password) {
-            res.status(401).json({ "error": "Invalid password" });
-        }
+        res.status(401).json({ "error": "Invalid name or password" });
     }
 
     // Check if user exists
@@ -52,12 +47,7 @@ userRouter.post("/register", async function (req, res) {
 
     // Validate name and password
     if (!name || !password) {
-        if (!name) {
-            res.status(401).json({ "error": "Invalid name" });
-        }
-        if (!password) {
-            res.status(401).json({ "error": "Invalid password" });
-        }
+        res.status(401).json({ "error": "Invalid name or password" });
     }
 
     // Create user
@@ -79,8 +69,8 @@ userRouter.post("/register", async function (req, res) {
 });
 
 // Get user total balance
-userRouter.get("/balance", async function (req, res) {
-    const { id } = req.body;
+userRouter.get("/balance/:id", async function (req, res) {
+    const { id } = req.params;
 
     // Validate id
     if (!id) {
@@ -106,14 +96,13 @@ userRouter.get("/balance", async function (req, res) {
 })
 
 // Get recent transactions (transaction history)
-userRouter.get("/transactions", async function (req, res) {
-    const { id } = req.body;
+userRouter.get("/transactions/:id", async function (req, res) {
+    const { id } = req.params;
 
     // Validate id
     if (!id) {
         res.status(401).json({ "error": "Invalid user id" });
     }
-
 
     // Get recent transactions
     else {
@@ -134,8 +123,8 @@ userRouter.get("/transactions", async function (req, res) {
 })
 
 // Get friends list
-userRouter.get("/friends", async function (req, res) {
-    const { id } = req.body;
+userRouter.get("/friends/:id", async function (req, res) {
+    const { id } = req.params;
 
     // Validate id
     if (!id) {
@@ -161,7 +150,7 @@ userRouter.get("/friends", async function (req, res) {
 })
 
 // Get groups list
-userRouter.get("/groups", async function (req, res) {
+userRouter.get("/groups/:id", async function (req, res) {
     const { id } = req.body;
 
     // Validate id
@@ -188,26 +177,18 @@ userRouter.get("/groups", async function (req, res) {
 })
 
 // Create a new group
-userRouter.post("/group", async function (req, res) {
-    const { uid, groupName, friends } = req.body;
+userRouter.post("/group/:id", async function (req, res) {
+    const { id, groupName, friends } = req.body;
 
     // Validate uid, groupName, and friends
-    if (!uid || !groupName || !friends) {
-        if (!uid) {
-            res.status(401).json({ "error": "Invalid uid" });
-        }
-        if (!groupName) {
-            res.status(401).json({ "error": "Invalid groupName" });
-        }
-        if (!friends) {
-            res.status(401).json({ "error": "Invalid friends" });
-        }
+    if (!id || !groupName || !friends) {
+        res.status(401).json({ "error": "Invalid user id, group name, or friends" });
     }
 
     // Create group
     else {
         try {
-            const group = createGroup(uid, groupName, friends);
+            const group = createGroup(id, groupName, friends);
             if (group) {
                 console.info('group', group);
                 res.status(200).json(group);
@@ -224,23 +205,18 @@ userRouter.post("/group", async function (req, res) {
 
 
 // Create a new transaction
-userRouter.post("/transaction", async function (req, res) {
-    const { description, transactions } = req.body;
+userRouter.post("/transaction/add/:uid", async function (req, res) {
+    const { uid, description, transactions } = req.body;
 
     // Validate description and transactions
     if (!description || !transactions) {
-        if (!description) {
-            res.status(401).json({ "error": "Invalid description" });
-        }
-        if (!transactions) {
-            res.status(401).json({ "error": "Invalid transactions" });
-        }
+        res.status(401).json({ "error": "Invalid description or transactions" });
     }
 
     // Create transaction
     else {
         try {
-            const { tid, status } = createTransaction(description, transactions);
+            const { tid, status } = createTransaction(uid, description, transactions);
             if (tid && status) {
                 console.info('transaction', tid, status);
                 res.status(200).json({ "tid": tid, "status": status });
@@ -256,7 +232,7 @@ userRouter.post("/transaction", async function (req, res) {
 })
 
 // Get timeline (transaction history)
-userRouter.get("/timeline", async function (req, res) {
+userRouter.get("/timeline/:id", async function (req, res) {
     const { id } = req.body;
 
     // Validate id

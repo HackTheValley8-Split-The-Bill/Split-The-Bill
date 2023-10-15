@@ -11,3 +11,4 @@ export const createUser = async (name, password) => {
   const result = await user.save();
   return result
 }
+
