@@ -2,7 +2,7 @@ import mongoose from '../db/dataBase.js';
 const { Schema, ObjectId } = mongoose;
 
 const groupSchema = new Schema({
-  users: [{ // group_members
+  members: [{ // group_members
     type: ObjectId,
     ref: 'User'
   }],
