@@ -3,7 +3,7 @@ const { Schema, ObjectId } = mongoose;
 
 const transactionSchema = new Schema({
   payer: {
-    type: ObjectId,
+    type: ObjectId, // String is better than ObjectId when we want to $match
     required: true,
   },
   amount: {

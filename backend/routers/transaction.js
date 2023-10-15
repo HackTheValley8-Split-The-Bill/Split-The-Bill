@@ -1,7 +1,15 @@
 import express from "express";
-import { addTransaction } from "../modules/transaction.js";
+import {
+  addTransaction,
+  geAllTransactions
+} from "../modules/transaction.js";
 
 export const transactionRouter = express.Router();
+
+transactionRouter.get("/", async function (req, res) {
+  console.info('You\'ve reached the transaction router!');
+  res.status(200).json({ "transaction list": await geAllTransactions() });
+});
 
 transactionRouter.post("/add/:id", async function (req, res, next) {
   const { id } = req.params;
