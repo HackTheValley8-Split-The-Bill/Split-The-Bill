@@ -33,6 +33,8 @@ friendRouter.get("/transactions/:uid/:fid", async function (req, res, next) {
     }
 
     // Get transactions between user and friend
-    const transactions = getTransactions(uid, fid);
-    res.status(200).json({ "transactions": transactions });
+    else{
+        const transactions = getTransactions(uid, fid);
+        res.status(200).json({ "transactions": transactions });
+    }
 });
