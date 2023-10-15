@@ -84,7 +84,7 @@
 
 ## Friend Page
 
-- [ ] summary: This page is used to display the **Total Amount of a Friend** and **Transaction List with Balance** of a friend
+- [x] summary: This page is used to display the **Total Amount of a Friend** and **Transaction List with Balance** of a friend
 
 > Notes: This is used to display the **Total Amount of a Friend**
 
@@ -121,7 +121,7 @@
 
 ## Add Transaction Page
 
-- [ ] summary: This page is used to display the **Transaction List** of a friend
+- [ ] summary: This page is used to create a new transaction
 
 > Notes: This is used to display the **Friend List** of a user
 
@@ -151,9 +151,9 @@
         "state": 200,
         "body": [
             {
-                "group_id" : "str",
-                "name" : "str",
-                "friends" :[
+                "_id" : "str",
+                "name" : "str", // group name
+                "users" :[ // group members
                     {
                         "id" : "str",
                         "name" : "str"
@@ -215,7 +215,8 @@
     "response": {
         "state": 200,
         "body": {
-            "id" : "str",
+            "id" : "str", // group id
+            "name" : "str", // group name
             "success" : "bool"
         }
     }
