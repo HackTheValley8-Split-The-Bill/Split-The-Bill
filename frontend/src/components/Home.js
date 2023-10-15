@@ -61,8 +61,8 @@ export default function Home() {
             md: 'calc(50vw - 300px)',
           },
           width: {
-            xs: '70vw',
-            md: '600px',
+            xs: 'calc(70vw - 50px)',
+            md: '550px',
           },
           height: {
             xs: 'calc(100vh - 410px)',
