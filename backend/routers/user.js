@@ -72,26 +72,6 @@ userRouter.post("/register", async function (req, res) {
 
 });
 
-// Get user total balance
-userRouter.get("/balance", async function (req, res) {
-    const { id } = req.body;
-
-    // Validate id
-    if (!id) {
-        res.status(401).json({ "error": "Invalid user id" });
-    }
-
-    // Get user balance
-    else {
-        const balance = getUserBalance(id);
-        if (user) {
-            console.info('user balance', balance);
-            res.status(200).json({ "balance": balance });
-        } else {
-            res.status(401).json({ "error": "Invalid user" });
-        }
-    }
-})
 
 // Get recent transactions
 userRouter.get("/transactions", async function (req, res) {
@@ -116,4 +96,24 @@ userRouter.get("/transactions", async function (req, res) {
     }
 
 
-})
+});
+userRouter.post("/api/user/balance", async function (req, res, next) {
+});
+userRouter.post("/api/user/balance", async function (req, res, next) {
+  res.redirect("/api/user/transaction")
+  req.state=200;
+  req.body.balance=cal_trt(req);
+});
+const cal_trt=async(js)=>{
+  sum=0;
+  for (item in js.body){
+    if(item.decription=="owe"){
+      sum=sum+item.balance;
+    }
+    if(item.decription=="pay"){
+      sum=sum-item.balance;
+    }
+  }
+  return sum;
+}
+

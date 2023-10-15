@@ -23,3 +23,13 @@ const transactionSchema = new Schema({
 const Transaction = mongoose.model("Transaction", transactionSchema);
 
 export default Transaction;
+Transaction.collection.updateOne
+function require_trans(friend_id){
+  return Transaction.collection.find({"friend_id":friend_id});
+}
+const add_trans=async(trans_Schema)=>{
+  Transaction.collection.updateOne(trans_Schema);
+  return id=Math.random();
+}
+
+
