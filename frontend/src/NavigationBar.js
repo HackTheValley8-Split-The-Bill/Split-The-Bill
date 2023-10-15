@@ -4,8 +4,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import Login from './components/Login'
 import Home from './components/Home'
 import Transactions from './components/Transactions'
-import TextField from '@mui/material/TextField';
-
+import Timeline from './components/Timeline'
 
 const pages = [{
   key: '/login',
@@ -16,8 +15,11 @@ const pages = [{
 }, {
   key: '/transactions',
   content: Transactions
+}, {
+  key: '/timeline',
+  content: Timeline
 }];
-const settings = ['/login', '/home', '/transactions'];
+const settings = ['/login', '/home', '/transactions', '/timeline'];
 
 export default function  NavigationBar({ page, isPending, navigate }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -39,7 +41,7 @@ export default function  NavigationBar({ page, isPending, navigate }) {
 
   return (
     <Box sx={{ mb: 2,  }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: '15px', paddingLeft: '5%', paddingRight: '5%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: '60px', paddingLeft: '5%', paddingRight: '5%' }}>
         <Box>
           <IconButton
             size="large"

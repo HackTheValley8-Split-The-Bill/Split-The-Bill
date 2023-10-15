@@ -1,92 +1,80 @@
-// import { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-//import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import { useState, useEffect } from 'react';
+import { Box, Grid, Paper, Typography } from '@mui/material';
+import Avatar from './Avatar';
 
-function Spawnuser({value,username}) {
+function User({ value, username }) {
   return (
-    <Paper
-      style={{
-        width: '600px',
-        height: '100px',
-        display: 'flex',
-        //justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Grid container justifyContent='space-between' alignItems='center' sx={{ height: '70px', overflow: 'scroll', cursor: 'pointer' }}>
+      <Grid item container xs spacing={3} alignItems='center'>
+        <Grid item>
+          <Avatar name={username} size='56px' />
+        </Grid>
+        <Grid item>
+          <Typography variant="h6" sx={{ fontSize: '1.2em' }}>
+            {`${username}`}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid item xs={2}>
+        <Typography variant="body1" align='center' sx={{ fontSize: '1.4em' }}>
+          {(parseFloat(value) >= 0
+          ? <Box component="span" sx={{ color: 'green' }}>{`$${value}`}</Box>
+          : <Box component="span" sx={{ color: 'red' }}>{`-$${Math.abs(value)}`}</Box>
+          )}
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+}
+
+export default function Home() {
+  const [totalBalence, setTotalBalence] = useState(0);
+
+  useEffect(() => {
+    setTotalBalence(20);
+  }, []);
+
+  return (
+    <div>
       <Box
-        style={{
-          width: '60px',
-          height: '60px',
-          backgroundColor: 'grey',
-          borderRadius: '50%',
+        sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          border: '2px solid black',
+          height: {
+            xs: '300px',
+            md: 'calc(40vh - 60px)',
+          },
+        }}>
+        <Typography variant="h1" sx={{ fontSize: '8em' }}>
+          {(parseFloat(totalBalence) >= 0
+          ? <Box component="span" sx={{ color: 'green' }}>{`$${totalBalence}`}</Box>
+          : <Box component="span" sx={{ color: 'red' }}>{`-$${Math.abs(totalBalence)}`}</Box>
+          )}
+        </Typography>
+      </Box>
+      <Paper
+        elevation={5}
+        sx={{
+          marginLeft: {
+            xs: '15vw',
+            md: 'calc(50vw - 300px)',
+          },
+          width: {
+            xs: '70vw',
+            md: '600px',
+          },
+          height: {
+            xs: 'calc(100vh - 410px)',
+            md: 'calc(60vh - 50px)',
+          },
+          padding: '10px 20px 0px 30px',
         }}
       >
-        {"icon"}
-      </Box>
-      {username+": "+"$"+value}
-    </Paper>
-  );
-}
-function user({username,x,y})
-{
-  return (
-    <Box
-      sx={{
-        position: 'absolute', 
-        left: x, 
-        top: y,
-        display: 'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius: '10px',
-        width: 300,
-        height: 300,
-        backgroundColor: 'lightblue',
-        '&:hover': {
-          backgroundColor: 'primary.main',
-          opacity: [0.9, 0.8, 0.7],
-        },
-      }}
-      > {"username"}</Box>
-  );
-}
-export default function Home() {
-  return (
-    <>
-    
-    <Container
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start', // Align to the top
-        height: '100vh', // Set the height of the container to the viewport height
-      }}
-    >
-      <Typography variant="h4">
-        Total <br /> $100
-      </Typography>
-    </Container>
-    
-    <Container
-      style={{
-        position: 'absolute',
-        left: '30%', 
-        top: '30%',
-      }}
-      >
-      <Spawnuser value={10} username={"user1"}/>
-      <Spawnuser value={20} username={"user2"}/>
-      <Spawnuser value={30} username={"user3"}/>
-    </Container>
-    </>
+        <User value={10} username={"Lianting Wang"}/>
+        <User value={-20} username={"Zheyuan Wei"}/>
+        <User value={30} username={"Qirui"}/>
+      </Paper>
+    </div>
   );
 }
