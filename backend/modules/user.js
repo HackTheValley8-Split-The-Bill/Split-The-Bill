@@ -86,13 +86,14 @@ export const getGroups = async (id) => {
 export const createGroup = async (id, groupName, friends) => {
   // Check if users are friends with the user
   const user = await User.findById(id);
-  if (user) {
-    for (const friend of friends) {
-      if (!user.friends.includes(friend)) {
-        // Remove users from group
-        friends = friends.filter((f) => f !== friend);
-        console.warn(`User ${friend} is not a friend of user ${id}, removed from group`);
-      }
+  if (!user) {
+    return false;
+  }
+  for (const friend of friends) {
+    if (!user.friends.includes(friend)) {
+      // Remove users from group
+      friends = friends.filter((f) => f !== friend);
+      console.warn(`User ${friend} is not a friend of user ${id}, removed from group`);
     }
   }
 
@@ -102,30 +103,40 @@ export const createGroup = async (id, groupName, friends) => {
   }
 
   // TODO: Check if user is already in a group with the same name
-  
+
 
   // Create group
   const group = new Group({
     name: groupName,
     members: [...friends, id]
   });
-  const result = await group.save();
-  // const user = await User.findOne({ _id: id });
-  if (user) {
-    // user.groups.push(result._id);
-    // await user.save();
-    // return result._id;
 
-    // Add group to all members
-    for (const friendId of friends) {
-      const memberUser = await User.findById(friendId);
-      if (memberUser) {
-        memberUser.groups.push(result._id);
-        await memberUser.save();
-      }
+  try {
+    const result = await group.save();
+  }
+  catch (e) {
+    console.error(e);
+    if (e.code === 11000) {
+      console.error('Duplicate group name');
+      return 11000;
+    } else {
+      console.error('Unknown error');
+      return false;
     }
   }
-  return false;
+
+  if (!result) {
+    return false;
+  }
+
+  // Add group to all members
+  for (const friendId of friends) {
+    const memberUser = await User.findById(friendId);
+    if (memberUser) {
+      memberUser.groups.push(result._id);
+      await memberUser.save();
+    }
+  }
 }
 
 // Remove a group from a user
